@@ -1,8 +1,8 @@
-import React, { FC } from 'react'
+import React, { FC, InputHTMLAttributes } from 'react'
 
 import styles from './index.module.less'
 
-interface InputProps extends React.DetailedHTMLProps<React.HTMLAttributes<HTMLInputElement>, HTMLInputElement> {}
+interface InputProps extends InputHTMLAttributes<HTMLInputElement> {}
 
 const Input: FC<InputProps> = ({ className, ...rest }) => {
 	return <input {...rest} className={[styles.wrapper, className].join(' ')} />
