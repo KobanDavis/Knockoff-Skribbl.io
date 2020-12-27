@@ -50,7 +50,7 @@ const Home: FC<Props> = ({ socket }) => {
 					<span className={styles.label}>Code: </span>
 					<Input onChange={(e) => setRoomId((e.target as any).value)} value={roomId} placeholder='Enter code...' />
 				</div>
-				<Button onClick={() => router.push(`/room/${roomId}`)} disabled={roomId.trim().length !== 9} className={styles.joinButton}>
+				<Button onClick={() => router.push(`/room/${roomId}`)} disabled={roomId.trim().length !== 5} className={styles.joinButton}>
 					Join
 				</Button>
 			</div>
