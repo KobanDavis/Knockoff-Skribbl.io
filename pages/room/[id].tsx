@@ -1,7 +1,7 @@
 import { NextPage } from 'next'
 import { useRouter } from 'next/router'
 import React, { FC, useEffect, useState } from 'react'
-import { UserObject } from '../../../server/src/User'
+import { UserObject } from '../../serverTypes'
 import { Socket } from 'socket.io-client'
 import { toPromise } from '../../utils'
 
