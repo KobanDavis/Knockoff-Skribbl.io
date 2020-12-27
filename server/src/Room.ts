@@ -22,6 +22,9 @@ class Room implements RoomInterface {
 	}
 
 	public addUser(user: User): void {
+		if (this.users.size === 0) {
+			user.setHost()
+		}
 		user.setRoom(this)
 		this.users.set(user.id, user)
 		this.updateClientUsers()

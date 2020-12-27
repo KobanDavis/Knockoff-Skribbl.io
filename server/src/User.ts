@@ -3,17 +3,23 @@ import Room from './Room'
 
 interface UserInterface {
 	id: string
+	isHost: boolean
 	toObject(): UserObject
 	setRoom(room: Room): void
 	getRoom(): Room
+	leaveRoom(): void
+	reconnect(socket: Socket): void
+	setHost(): void
 }
 
 export interface UserObject {
 	name: string
 	id: string
+	isHost: boolean
 }
 
 class User implements UserInterface {
+	public isHost: boolean = false
 	private _room: Room = null
 	private disconnectTimer: NodeJS.Timeout
 
@@ -28,7 +34,7 @@ class User implements UserInterface {
 	}
 
 	public toObject(): UserObject {
-		return { name: this._name, id: this.id }
+		return { name: this._name, id: this.id, isHost: this.isHost }
 	}
 
 	public setRoom(room: Room): void {
@@ -55,6 +61,10 @@ class User implements UserInterface {
 		this._socket.join(this._room.id)
 		clearTimeout(this.disconnectTimer)
 		this.handleDisconnect()
+	}
+
+	public setHost(): void {
+		this.isHost = true
 	}
 }
 
