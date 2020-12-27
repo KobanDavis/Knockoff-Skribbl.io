@@ -1,9 +1,13 @@
 import { NextPage } from 'next'
 import { useRouter } from 'next/router'
-import React, { useEffect, useState } from 'react'
+import React, { FC, useEffect, useState } from 'react'
 import { UserObject } from '../../../server/src/User'
 import { Socket } from 'socket.io-client'
 import { toPromise } from '../../utils'
+
+import styles from './index.module.less'
+import { CopyIcon, Input } from '../../components'
+import CrownIcon from '../../components/CrownIcon'
 
 interface RoomProps {
 	socket: Socket
@@ -13,8 +17,7 @@ const Room: NextPage<RoomProps> = ({ socket }) => {
 	const [users, setUsers] = useState<UserObject[]>(null)
 	const router = useRouter()
 
-	const roomId = router.query.id
-	console.log(roomId, users)
+	const roomId = router.query.id as string
 
 	useEffect(() => {
 		const name = localStorage.getItem('name')
@@ -46,11 +49,32 @@ const Room: NextPage<RoomProps> = ({ socket }) => {
 		}
 	}, [roomId])
 
+	const copyCode = () => {
+		navigator.clipboard.writeText(roomId)
+	}
+
 	return (
-		<div>
-			{users?.map((user) => (
-				<div>{user.name}</div>
-			))}
+		<div className={styles.wrapper}>
+			<div className={styles.title}>
+				<span>Waiting room:</span>
+				<div className={styles.code}>
+					<Input contentEditable={false} value={roomId} />
+					<span title='Copy code'>
+						<CopyIcon onClick={copyCode} className={styles.copyIcon} />
+					</span>
+				</div>
+			</div>
+			<div>
+				<span>Users:</span>
+				<div className={styles.users}>
+					{users?.map((user) => (
+						<div className={styles.user} key={user.id}>
+							{user.name}
+							{user.isHost ? <CrownIcon className={styles.crownIcon} /> : null}
+						</div>
+					))}
+				</div>
+			</div>
 		</div>
 	)
 }
